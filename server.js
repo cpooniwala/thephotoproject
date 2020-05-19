@@ -12,11 +12,12 @@ if (process.env.NODE_ENV === "production") {
 app.use(bodyParser.json());
 
 // Requiring our models for syncing
-var db = require("./models");
+const db = require("./models");
 
 // Send every request to the React app
 // Define any API routes before this runs
 require("./routes/api-routes.js")(app);
+// Add routes, both API and view
 
 // create a GET route
 app.get("/express_backend", (req, res) => {

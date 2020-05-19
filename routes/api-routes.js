@@ -1,5 +1,6 @@
 // Get route for retrieving a single Camera
 var db = require("../models");
+const router = require("express").Router();
 
 module.exports = function (app) {
   app.get("/api/camera/:name", function (req, res) {
@@ -38,5 +39,10 @@ module.exports = function (app) {
       .catch(function (err) {
         console.log(err);
       });
+  });
+
+  // If no API routes are hit, send the React app
+  router.use(function (req, res) {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 };
