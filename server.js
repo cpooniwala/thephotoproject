@@ -2,6 +2,7 @@ const express = require("express");
 const PORT = process.env.PORT || 3001;
 const app = express();
 const bodyParser = require("body-parser");
+require("dotenv").config();
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
