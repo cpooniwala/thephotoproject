@@ -9,19 +9,27 @@ module.exports = function (app) {
       where: {
         name: req.params.name,
       },
-    }).then(function (dbName) {
-      console.log("successfully found camera");
-      res.json(dbName);
-    });
+    })
+      .then(function (dbName) {
+        console.log("successfully found camera");
+        res.json(dbName);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   });
 
   app.post("/api/cameras", function (req, res) {
     console.log(req);
     db.Cameras.create({
       name: req.body.name,
-    }).then(function (dbCameras) {
-      res.json(dbCameras);
-    });
+    })
+      .then(function (dbCameras) {
+        res.json(dbCameras);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   });
   //Picture API
   app.get("/api/picture/:CameraId", function (req, res) {
@@ -50,6 +58,21 @@ module.exports = function (app) {
       .then(function (dbPictures) {
         console.log("success");
         res.json(dbPictures);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  });
+
+  // PUT route for updating posts
+  app.put("/api/pictures", function (req, res) {
+    db.Pictures.update(req.body, {
+      where: {
+        id: req.body.id,
+      },
+    })
+      .then(function (dbPost) {
+        res.json(dbPost);
       })
       .catch(function (err) {
         console.log(err);
