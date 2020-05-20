@@ -4,6 +4,6 @@ import axios from "axios";
 // It accepts a "query" or term to search the recipe api for
 export default {
   getCamera: function (query) {
-    return axios.get("/api/camera/" + query);
+    return axios.get("/api/picture/" + query);
   },
 };

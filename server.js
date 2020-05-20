@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
 const bodyParser = require("body-parser");
@@ -14,15 +13,15 @@ app.use(bodyParser.json());
 // Requiring our models for syncing
 const db = require("./models");
 
-// Send every request to the React app
-// Define any API routes before this runs
-require("./routes/api-routes.js")(app);
-// Add routes, both API and view
-
 // create a GET route
 app.get("/express_backend", (req, res) => {
   res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
 });
+
+// Send every request to the React app
+// Define any API routes before this runs
+require("./routes/api-routes.js")(app);
+
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
 db.sequelize.sync({ force: true }).then(function () {

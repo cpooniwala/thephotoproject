@@ -1,8 +1,9 @@
 // Get route for retrieving a single Camera
 var db = require("../models");
-const router = require("express").Router();
+//const router = require("express").Router();
 
 module.exports = function (app) {
+  //Camera API
   app.get("/api/camera/:name", function (req, res) {
     db.Cameras.findOne({
       where: {
@@ -22,6 +23,20 @@ module.exports = function (app) {
       res.json(dbCameras);
     });
   });
+  //Picture API
+  app.get("/api/picture/:CameraId", function (req, res) {
+    db.Pictures.findAll({
+      where: {
+        CameraId: req.params.CameraId,
+      },
+    })
+      .then(function (dbPictures) {
+        res.json(dbPictures);
+      })
+      .catch(function (err) {
+        if (err) throw err;
+      });
+  });
 
   app.post("/api/pictures", function (req, res) {
     console.log(req.body);
@@ -39,10 +54,5 @@ module.exports = function (app) {
       .catch(function (err) {
         console.log(err);
       });
-  });
-
-  // If no API routes are hit, send the React app
-  router.use(function (req, res) {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
   });
 };

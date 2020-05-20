@@ -4,6 +4,7 @@ import API from "../utils/API";
 function PhotoStories() {
   // Setting our component's initial state
   const [camera, setCamera] = useState();
+  const [photos, setPhotos] = useState([]);
 
   //
   useEffect(() => {}, []);
@@ -21,7 +22,7 @@ function PhotoStories() {
     event.preventDefault();
     console.log(camera);
     API.getCamera(camera)
-      .then((res) => console.log(res.data))
+      .then((res) => setPhotos(res.data))
       .catch((err) => console.log(err));
   };
 
@@ -44,6 +45,19 @@ function PhotoStories() {
           onClick={handleFormSubmit}
         />
       </form>
+      <div>
+        <p>Photo Container</p>
+        <ul>
+          {photos.map((photo) => (
+            <li key={photo.id}>
+              <p>{photo.caption}</p>
+              <p>{photo.location}</p>
+              <p>{photo.instagram}</p>
+              <img src={photo.url} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
