@@ -22,6 +22,10 @@ app.get("/express_backend", (req, res) => {
 // Define any API routes before this runs
 require("./routes/api-routes.js")(app);
 
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
+
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
 db.sequelize.sync({ force: true }).then(function () {
