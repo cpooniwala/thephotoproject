@@ -32,7 +32,7 @@ module.exports = function (app) {
       });
   });
   //Picture API
-  app.get("/api/picture/:CameraId", function (req, res) {
+  app.get("/api/pictures/:CameraId", function (req, res) {
     db.Pictures.findAll({
       where: {
         CameraId: req.params.CameraId,
@@ -44,6 +44,12 @@ module.exports = function (app) {
       .catch(function (err) {
         if (err) throw err;
       });
+  });
+
+  app.get("/api/pictures/", function (req, res) {
+    db.Pictures.findAll({}).then(function (dbPictures) {
+      res.json(dbPictures);
+    });
   });
 
   app.post("/api/pictures", function (req, res) {

@@ -1,13 +1,37 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/API";
+import Gallery from "react-photo-gallery";
 
 function PhotoStories() {
   // Setting our component's initial state
   const [camera, setCamera] = useState();
   const [photos, setPhotos] = useState([]);
-
+  const [picturesFromS3, setPicturesFromS3] = useState([]);
   //
-  useEffect(() => {}, []);
+  useEffect(() => {
+    loadPictures();
+  }, []);
+
+  //load my Pictures
+  function loadPictures() {
+    API.getPictures()
+      .then((res) => setPicturesFromS3(galleryPictures(res.data)))
+      .catch((err) => console.log(err));
+  }
+
+  let galleryPictures = function (photosfromS3) {
+    console.log(photosfromS3);
+    let galleryPicturesforRender = [];
+    for (let i = 0; i < photosfromS3.length; i++) {
+      galleryPicturesforRender.push({
+        src: photosfromS3[i].url,
+        width: 4,
+        height: 4,
+      });
+    }
+    console.log(galleryPicturesforRender);
+    return galleryPicturesforRender;
+  };
 
   const handleInputChange = (event) => {
     // Destructure the name and value properties off of event.target
@@ -15,6 +39,7 @@ function PhotoStories() {
     const { value } = event.target;
     setCamera(value);
     console.log(camera);
+    console.log(picturesFromS3);
   };
 
   const handleFormSubmit = (event) => {
@@ -28,7 +53,8 @@ function PhotoStories() {
 
   return (
     <div>
-      <h1>Hello!</h1>
+      <h1>The Photo Project</h1>
+      <div>{<Gallery photos={picturesFromS3} />}</div>
       <form>
         <input
           value={camera}
@@ -38,6 +64,7 @@ function PhotoStories() {
           placeholder="Enter Your Camera ID"
           id="cameraID"
         />
+        <br></br>
         <input
           className="button-primary"
           type="submit"
@@ -46,7 +73,6 @@ function PhotoStories() {
         />
       </form>
       <div>
-        <p>Photo Container</p>
         <ul>
           {photos.map((photo) => (
             <li key={photo.id}>
