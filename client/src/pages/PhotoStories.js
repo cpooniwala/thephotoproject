@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/API";
 import Gallery from "react-photo-gallery";
+import Instructions from "../components/Instructions";
+import { FaMapMarkedAlt } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
 function PhotoStories() {
   // Setting our component's initial state
@@ -54,35 +57,58 @@ function PhotoStories() {
   return (
     <div>
       <h1>The Photo Project</h1>
-      <div>{<Gallery photos={picturesFromS3} />}</div>
-      <form>
-        <input
-          value={camera}
-          onChange={handleInputChange}
-          className=""
-          type="text"
-          placeholder="Enter Your Camera ID"
-          id="cameraID"
-        />
-        <br></br>
-        <input
-          className="button-primary"
-          type="submit"
-          value="submit"
-          onClick={handleFormSubmit}
-        />
-      </form>
-      <div>
-        <ul>
-          {photos.map((photo) => (
-            <li key={photo.id}>
-              <p>{photo.caption}</p>
-              <p>{photo.location}</p>
-              <p>{photo.instagram}</p>
-              <img src={photo.url} />
-            </li>
-          ))}
-        </ul>
+      <Instructions />
+      <div className="row">
+        <div className="one-half column">
+          <h4 className="submit-header">
+            So You Received a Camera?
+            <p className="value-prop">
+              Enter the ID of the camera to view the Photo Story. Only those
+              that know the Camera ID will be able to view the Journey!
+            </p>
+          </h4>
+        </div>
+        <div className="one-half column">
+          <form className="submit-form">
+            <input
+              value={camera}
+              onChange={handleInputChange}
+              className=""
+              type="text"
+              placeholder="Enter Your Camera ID"
+              id="cameraID"
+            />
+            <br></br>
+            <input
+              className="button-primary"
+              type="submit"
+              value="submit"
+              onClick={handleFormSubmit}
+            />
+          </form>
+        </div>
+      </div>
+      <div className="container">
+        <div>{<Gallery photos={picturesFromS3} />}</div>
+      </div>
+      <br></br>
+      <div className="container">
+        {photos.map((photo) => (
+          <div key={photo.id}>
+            <img className="photo-story-image" src={photo.url} />
+            <p className="photo-caption">{photo.caption}</p>
+            <p>
+              <FaMapMarkedAlt className="icon" />
+              {photo.location}
+            </p>
+            <div>
+              <FaInstagram className="icon" />
+              <a href={`https://www.instagram.com/${photo.instagram}/`}>
+                {photo.instagram}
+              </a>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
