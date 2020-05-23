@@ -4,13 +4,17 @@ import Gallery from "react-photo-gallery";
 import Instructions from "../components/Instructions";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
+import EditableLabel from "react-inline-editing";
+import PhotoItem from "../components/PhotoItem";
 
 function PhotoStories() {
   // Setting our component's initial state
   const [camera, setCamera] = useState();
   const [photos, setPhotos] = useState([]);
+
   const [picturesFromS3, setPicturesFromS3] = useState([]);
-  //
+
+  //UseEffect
   useEffect(() => {
     loadPictures();
   }, []);
@@ -22,8 +26,9 @@ function PhotoStories() {
       .catch((err) => console.log(err));
   }
 
+  //Reformat pictures from db to gallery
   let galleryPictures = function (photosfromS3) {
-    console.log(photosfromS3);
+    // console.log(photosfromS3);
     let galleryPicturesforRender = [];
     for (let i = 0; i < photosfromS3.length; i++) {
       galleryPicturesforRender.push({
@@ -32,7 +37,7 @@ function PhotoStories() {
         height: 4,
       });
     }
-    console.log(galleryPicturesforRender);
+    // console.log(galleryPicturesforRender);
     return galleryPicturesforRender;
   };
 
@@ -41,8 +46,8 @@ function PhotoStories() {
     // Update the appropriate state
     const { value } = event.target;
     setCamera(value);
-    console.log(camera);
-    console.log(picturesFromS3);
+    // console.log(camera);
+    // console.log(picturesFromS3);
   };
 
   const handleFormSubmit = (event) => {
@@ -52,6 +57,16 @@ function PhotoStories() {
     API.getCamera(camera)
       .then((res) => setPhotos(res.data))
       .catch((err) => console.log(err));
+  };
+  const onHandleInputChange = (text, id, type) => {
+    console.log(text, id, type);
+    let pictureData = {};
+    //Pass this data to the server
+    //Loop through photos on the server
+
+    //Send back new data
+
+    //Set Photos State with new Server
   };
 
   return (
@@ -95,18 +110,14 @@ function PhotoStories() {
       <div className="container">
         {photos.map((photo) => (
           <div key={photo.id}>
-            <img className="photo-story-image" src={photo.url} />
-            <p className="photo-caption">{photo.caption}</p>
-            <p>
-              <FaMapMarkedAlt className="icon" />
-              {photo.location}
-            </p>
-            <div>
-              <FaInstagram className="icon" />
-              <a href={`https://www.instagram.com/${photo.instagram}/`}>
-                {photo.instagram}
-              </a>
-            </div>
+            <PhotoItem
+              id={photo.id}
+              caption={photo.caption}
+              location={photo.location}
+              instagram={photo.instagram}
+              url={photo.url}
+              onInputChange={onHandleInputChange}
+            />
           </div>
         ))}
       </div>
