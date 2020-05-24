@@ -58,10 +58,18 @@ function PhotoStories() {
       .then((res) => setPhotos(res.data))
       .catch((err) => console.log(err));
   };
-  const onHandleInputChange = (text, id, type) => {
+  const onHandleCaptionChange = (text, id, type) => {
     console.log(text, id, type);
-    let pictureData = {};
+    let pictureData = {
+      caption: text,
+      id: id,
+    };
     //Pass this data to the server
+    API.updatePictureData(pictureData).then(function () {
+      API.getCamera(camera)
+        .then((res) => setPhotos(res.data))
+        .catch((err) => console.log(err));
+    });
     //Loop through photos on the server
 
     //Send back new data
@@ -69,40 +77,81 @@ function PhotoStories() {
     //Set Photos State with new Server
   };
 
+  const onHandleLocationChange = (text, id, type) => {
+    console.log(text, id, type);
+    let pictureData = {
+      location: text,
+      id: id,
+    };
+  };
+
+  const onHandleInstagramChange = (text, id, type) => {
+    console.log(text, id, type);
+    let pictureData = {
+      instagtam: text,
+      id: id,
+    };
+  };
+
+  const onHandleLabelChange = (text, id, type) => {
+    console.log(text, id, type);
+    let pictureData;
+    if (type === "caption") {
+      pictureData = {
+        caption: text,
+        id: id,
+      };
+    } else if (type === "location") {
+      pictureData = {
+        location: text,
+        id: id,
+      };
+    } else {
+      pictureData = {
+        instagram: text,
+        id: id,
+      };
+    }
+
+    API.updatePictureData(pictureData).then(function () {
+      API.getCamera(camera)
+        .then((res) => setPhotos(res.data))
+        .catch((err) => console.log(err));
+    });
+  };
+
   return (
     <div>
       <h1>The Photo Project</h1>
       <Instructions />
-      <div className="row">
-        <div className="one-half column">
-          <h4 className="submit-header">
-            So You Received a Camera?
-            <p className="value-prop">
-              Enter the ID of the camera to view the Photo Story. Only those
-              that know the Camera ID will be able to view the Journey!
-            </p>
-          </h4>
-        </div>
-        <div className="one-half column">
-          <form className="submit-form">
-            <input
-              value={camera}
-              onChange={handleInputChange}
-              className=""
-              type="text"
-              placeholder="Enter Your Camera ID"
-              id="cameraID"
-            />
-            <br></br>
-            <input
-              className="button-primary"
-              type="submit"
-              value="submit"
-              onClick={handleFormSubmit}
-            />
-          </form>
-        </div>
+      <div className="container">
+        <h4 className="submit-header">So You Received a Camera? </h4>
+        <p className="value-prop">
+          Enter the ID of the camera to view the Photo Story. Only those that
+          know the Camera ID will be able to view the Journey!
+        </p>
+        <form className="submit-form">
+          <input
+            value={camera}
+            onChange={handleInputChange}
+            className=""
+            type="text"
+            placeholder="Enter Your Camera ID"
+            id="cameraID"
+          />
+          <span className="spacer"></span>
+          <input
+            className="button-primary"
+            type="submit"
+            value="submit"
+            onClick={handleFormSubmit}
+          />
+        </form>
       </div>
+      {/* <div className="row">
+        <div className="one-half column"></div>
+        <div className="one-half column"></div>
+      </div> */}
       <div className="container">
         <div>{<Gallery photos={picturesFromS3} />}</div>
       </div>
@@ -116,7 +165,7 @@ function PhotoStories() {
               location={photo.location}
               instagram={photo.instagram}
               url={photo.url}
-              onInputChange={onHandleInputChange}
+              onLabelChange={onHandleLabelChange}
             />
           </div>
         ))}
@@ -124,5 +173,4 @@ function PhotoStories() {
     </div>
   );
 }
-
 export default PhotoStories;

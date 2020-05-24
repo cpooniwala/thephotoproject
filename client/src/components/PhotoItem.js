@@ -4,7 +4,7 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import EditableLabel from "react-inline-editing";
 
-function PhotoItem({ id, caption, location, instagram, url, onInputChange }) {
+function PhotoItem({ id, caption, location, instagram, url, onLabelChange }) {
   // Setting our component's initial state
 
   //UseEffect
@@ -20,44 +20,36 @@ function PhotoItem({ id, caption, location, instagram, url, onInputChange }) {
   }
 
   return (
-    <div className="row">
-      <div className="one column">
-        <div className="arrow">
-          <div className="curve"></div>
-          <div className="point"></div>
-        </div>
+    <div className="container">
+      <div className="photo-container">
+        <img className="photo-story-image" src={url} />
       </div>
-      <div className="eleven columns">
-        <div className="photo-container">
-          <img className="photo-story-image" src={url} />
-        </div>
 
-        <div className="photo-caption-container">
-          <EditableLabel
-            text={caption}
-            onFocus={handleFocus}
-            onFocusOut={(text) => onInputChange(text, id, "caption")}
-          />
-        </div>
-        <div className="photo-location-container">
-          <FaMapMarkedAlt className="icon" />
-          <EditableLabel
-            text={location}
-            onFocus={handleFocus}
-            onFocusOut={(text) => onInputChange(text, id, "location")}
-          />
-        </div>
-        <div className="instagram-container">
-          <a href={`https://www.instagram.com/${instagram}/`}>
-            <FaInstagram />
-          </a>
-          <EditableLabel
-            text={instagram}
-            id={id}
-            onFocus={handleFocus}
-            onFocusOut={(text) => onInputChange(text, id, "instagram")}
-          />
-        </div>
+      <div className="photo-caption-container">
+        <EditableLabel
+          text={caption}
+          onFocus={handleFocus}
+          onFocusOut={(text) => onLabelChange(text, id, "caption")}
+        />
+      </div>
+      <div className="photo-location-container">
+        <FaMapMarkedAlt className="icon" />
+        <EditableLabel
+          text={location}
+          onFocus={handleFocus}
+          onFocusOut={(text) => onLabelChange(text, id, "location")}
+        />
+      </div>
+      <div className="instagram-container">
+        <a href={`https://www.instagram.com/${instagram}/`}>
+          <FaInstagram />
+        </a>
+        <EditableLabel
+          text={instagram}
+          id={id}
+          onFocus={handleFocus}
+          onFocusOut={(text) => onLabelChange(text, id, "instagram")}
+        />
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ export default {
   getPictures: function () {
     return axios.get("/api/pictures");
   },
-  updatePictureData: function () {
-    return axios.put("/api/pictures");
+  updatePictureData: function (pictureData) {
+    return axios.put("/api/pictures", pictureData);
   },
 };
