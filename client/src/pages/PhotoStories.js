@@ -6,6 +6,7 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import EditableLabel from "react-inline-editing";
 import PhotoItem from "../components/PhotoItem";
+import Video from "../components/Video";
 
 function PhotoStories() {
   // Setting our component's initial state
@@ -122,9 +123,8 @@ function PhotoStories() {
 
   return (
     <div>
-      <h1>The Photo Project</h1>
-      <Instructions />
       <div className="container">
+        <Instructions />
         <h4 className="submit-header">So You Received a Camera? </h4>
         <p className="value-prop">
           Enter the ID of the camera to view the Photo Story. Only those that
@@ -148,13 +148,6 @@ function PhotoStories() {
           />
         </form>
       </div>
-      {/* <div className="row">
-        <div className="one-half column"></div>
-        <div className="one-half column"></div>
-      </div> */}
-      <div className="container">
-        <div>{<Gallery photos={picturesFromS3} />}</div>
-      </div>
       <br></br>
       <div className="container">
         {photos.map((photo) => (
@@ -169,6 +162,9 @@ function PhotoStories() {
             />
           </div>
         ))}
+      </div>
+      <div className="container">
+        <div>{<Gallery photos={picturesFromS3} />}</div>
       </div>
     </div>
   );

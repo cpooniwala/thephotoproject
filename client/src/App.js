@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "./pages/PhotoStories";
 import PhotoStories from "./pages/PhotoStories";
+import Video from "./components/Video";
 
 function App() {
   const callBackendAPI = async () => {
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <div className="App">
+      <Video />
       <PhotoStories />
     </div>
   );
