@@ -12,6 +12,8 @@ function Video() {
             src="https://thephotoproject.s3.us-east-2.amazonaws.com/photoproj.mov"
             autoPlay={true}
             loop={true}
+            type="video/mp4"
+            muted={true}
           />
         </div>
         <div className="header-overlay"></div>
